@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-restart {
+    @apply tracking-widest
+    italic
+    font-card-other
+    bg-gradient-to-tr from-red-900 to-zinc-800
+    border border-zinc-700
+    rounded-md p-5 text-lg
+    transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300;
+  }
+
+  .btn-buy {
+    @apply font-card-other
+    italic
+    tracking-widest
+    bg-gradient-to-tr from-teal-900 to-zinc-800
+    border border-zinc-700
+    rounded-md p-5 text-lg
+    transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300;
+  }
+
+  .cards {
+    @apply font-card-sides
+    text-center text-4xl
+    h-32 w-28 font-semibold
+    bg-gradient-to-tr to-zinc-800
+    rounded-md p-4
+    border border-zinc-700
+    transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300;
+  }
+
+  .stones {
+    @apply tracking-wider
+    mt-1
+    font-card-other
+    bg-gradient-to-tr from-zinc-900 to-zinc-800
+    border border-zinc-700
+    rounded-md p-5 text-lg
+    transition-colors ease-in-out hover:text-emerald-600 hover:border-emerald-700 focus:border-emerald-700 focus:text-emerald-600 duration-300;
+  }
+}

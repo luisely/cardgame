@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { defineState } from 'redux-localstore'
 
-const defaultState = { right: false, left: true }
+const defaultState = { right: true, left: false }
 
 const initialState = defineState(defaultState)('isDisabled')
 

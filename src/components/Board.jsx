@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { setStoneSelected } from '../store/place'
+// import PropTypes from 'prop-types'
 
 export default function Board({ data }) {
   const dispatch = useDispatch()
@@ -27,17 +28,7 @@ export default function Board({ data }) {
           </div>
         ))}
         <div className="">
-          <button
-            className={`
-            tracking-wider
-              mt-1
-              font-card-other
-              bg-gradient-to-tr from-zinc-900 to-zinc-800
-              border border-zinc-700
-              rounded-md p-5 text-lg
-              transition-colors ease-in-out hover:text-emerald-600 hover:border-emerald-700 focus:border-emerald-700 focus:text-emerald-600 duration-300`}
-            onClick={() => dispatch(setStoneSelected(data.id))}
-          >
+          <button className="stones" onClick={() => dispatch(setStoneSelected(data.id))}>
             STONE <span>{data.id}</span>
           </button>
         </div>
@@ -56,3 +47,26 @@ export default function Board({ data }) {
     </>
   )
 }
+
+// Board.propTypes = {
+//   data: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.number.isRequired,
+//       left: PropTypes.arrayOf(
+//         PropTypes.shape({
+//           id: PropTypes.string.isRequired,
+//           cardValue: PropTypes.number.isRequired,
+//           color: PropTypes.string.isRequired,
+//         }),
+//       ).isRequired,
+//       right: PropTypes.arrayOf(
+//         PropTypes.shape({
+//           id: PropTypes.string.isRequired,
+//           cardValue: PropTypes.number.isRequired,
+//           color: PropTypes.string.isRequired,
+//         }),
+//       ).isRequired,
+//       totalCardsStone: PropTypes.number.isRequired,
+//     }).isRequired,
+//   ).isRequired,
+// }

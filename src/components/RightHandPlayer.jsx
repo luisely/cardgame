@@ -1,8 +1,14 @@
-import dragon2 from '../assets/dragon2.svg'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { useSelector } from 'react-redux'
+import { removeRightCardById } from '../store/playerCards'
+import { addCardRightPlayer } from '../store/stones'
+import { setStoneSelected } from '../store/place'
 
-export default function RightHandPlayer({ data, addCardToStone }) {
+import * as isDisabledHandle from '../store/isDisabled'
+
+export default function RightHandPlayer({ data }) {
+  const dispatch = useDispatch()
   const { isDisabled } = useSelector((state) => state)
   const { stoneSelected } = useSelector((state) => state.stoneSelected)
 
@@ -20,16 +26,14 @@ export default function RightHandPlayer({ data, addCardToStone }) {
       {data.map((card) => (
         <div key={card.id} className="flex">
           <button
-            className={`
-            font-card-sides
-            text-center text-4xl
-            h-32 w-28 font-semibold
-            bg-gradient-to-tr ${colorVariants[card.color]} to-zinc-800
-            rounded-md p-4
-            border border-zinc-700
-            transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
+            className={`cards ${colorVariants[card.color]}`}
             disabled={isDisabled.right}
-            onClick={() => addCardToStone(stoneSelected, card)}
+            onClick={() => {
+              dispatch(addCardRightPlayer([stoneSelected, card])),
+                dispatch(isDisabledHandle.disableRight()),
+                dispatch(removeRightCardById(card.id)),
+                dispatch(setStoneSelected(0))
+            }}
           >
             {card.cardValue}
           </button>
@@ -37,4 +41,14 @@ export default function RightHandPlayer({ data, addCardToStone }) {
       ))}
     </>
   )
+}
+
+RightHandPlayer.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      cardValue: PropTypes.number.isRequired,
+      color: PropTypes.string,
+    }).isRequired,
+  ).isRequired,
 }

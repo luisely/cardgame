@@ -1,4 +1,4 @@
-export let stoneInitial = [
+export const stoneInitial = [
   {
     id: 1,
     totalCardsStone: 0,

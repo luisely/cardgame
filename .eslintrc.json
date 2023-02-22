@@ -19,7 +19,7 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/forbid-prop-tyeps": 0,
-    "no-unused-vars": ["warn"]
+    "no-unused-vars": ["warn"],
+    "react/prop-types": ["error", { "ignore": ["my_prop_key_that_uses_object_map"] }]
   }
 }

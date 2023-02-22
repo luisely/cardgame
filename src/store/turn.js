@@ -4,7 +4,7 @@ import { defineState } from 'redux-localstore'
 //const initialTurn = localStorage.getItem('turn') ? JSON.parse(localStorage.getItem('turn')) : 'right'
 
 const defaultState = {
-  turn: 'right',
+  turn: 'left',
 }
 
 const initialState = defineState(defaultState)('turn')
