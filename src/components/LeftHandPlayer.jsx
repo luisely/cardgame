@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { setStoneSelected } from '../store/place'
 import { removeLeftCardById } from '../store/playerCards'
 import { addCardLeftPlayer } from '../store/stones'
-import { setStoneSelected } from '../store/place'
 
 import * as isDisabledHandle from '../store/isDisabled'
 
@@ -11,6 +11,7 @@ export default function LeftHandPlayer({ data }) {
   const dispatch = useDispatch()
   const { isDisabled } = useSelector((state) => state)
   const { stoneSelected } = useSelector((state) => state.stoneSelected)
+  const stones = useSelector((state) => state.stones)
 
   const colorVariants = {
     blue: 'from-blue-700',
@@ -20,6 +21,21 @@ export default function LeftHandPlayer({ data }) {
     red: 'from-red-700',
     zinc: 'from-zinc-700',
   }
+
+  const handleAddCard = (cardToStone) => {
+    if (stoneSelected === 0) return
+    const { left } = stones.find((value) => value.id === stoneSelected)
+
+    if (left.length < 3) {
+      dispatch(addCardLeftPlayer([stoneSelected, cardToStone]))
+      dispatch(isDisabledHandle.disableLeft())
+      dispatch(removeLeftCardById(cardToStone.id))
+      dispatch(setStoneSelected(0))
+    } else {
+      return
+    }
+  }
+
   return (
     <>
       {data.map((card) => (
@@ -27,12 +43,7 @@ export default function LeftHandPlayer({ data }) {
           <button
             className={`cards ${colorVariants[card.color]}`}
             disabled={isDisabled.left}
-            onClick={() => {
-              dispatch(addCardLeftPlayer([stoneSelected, card])),
-                dispatch(isDisabledHandle.disableLeft()),
-                dispatch(removeLeftCardById(card.id)),
-                dispatch(setStoneSelected(0))
-            }}
+            onClick={() => handleAddCard(card)}
           >
             {card.cardValue}
           </button>

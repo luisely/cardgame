@@ -103,7 +103,7 @@ export default (stones) => {
     let final = []
 
     for (let i = 0; i <= 8; i++) {
-      if (leftCards[i].length > 1 && rightCards[i].length) {
+      if (leftCards[i].length > 2 && rightCards[i].length > 2) {
         if (checkIsColorRun(i, leftCards) > 0) {
           leftSide[i] = checkIsColorRun(i, leftCards)
         } else if (checkIsThreeOfaKind(i, leftCards) > 0) {

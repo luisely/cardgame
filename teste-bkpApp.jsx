@@ -1,126 +1,162 @@
-;<div className="h-screen text-white flex flex-col justify-between">
-  <div className="flex flex-wrap gap-2 justify-center">
-    <LeftHandPlayer data={cardsleftPlayer} addCardToStoneLeft={addCardToStoneLeft} />
-  </div>
-  <div className="flex flex-wrap justify-center h-full">
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex font-card-other -mt-6">{turn.toUpperCase()} PLAY </div>
-      <button
-        className={`
-        font-card-other
-        font-semibold
-        bg-gradient-to-tr from-teal-900 to-zinc-800
-        border border-zinc-700
-        rounded-sm p-5 text-lg
-        transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
-        onClick={() => handleBuyCard(turn)}
-      >
-        BUY CARD - {deckOfCards.length}
-      </button>
-    </div>
-    <div className="h-auto flex flex-wrap gap-2 justify-center items-center grow">
-      {stones.map((stone, i) => (
-        <Board key={i} data={stone} />
-      ))}
-    </div>
-    <div className="flex flex-wrap justify-center items-center gap-2">
-      <button
-        className={`
-        font-card-other
-        bg-gradient-to-tr from-red-900 to-zinc-800
-        border border-zinc-700
-        rounded-sm p-5 text-lg
-        transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
-        onClick={() => clearStorage()}
-      >
-        RESTART
-      </button>
-    </div>
-  </div>
-  <div className="flex flex-wrap gap-2 justify-center">
-    <RightHandPlayer data={cardsRightPlayer} addCardToStone={addCardToStone} />
-  </div>
-</div>
+import _ from 'lodash'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-{
-  /* <div className="h-screen w-screen flex flex-col items-center text-white justify-between">
-<div class="grid grid-cols-6 grid-rows-1 gap-1">
-  <LeftHandPlayer data={cardsleftPlayer} addCardToStoneLeft={addCardToStoneLeft} />
-</div>
+import { disableLeft, disableRight, enableLeft, enableRight } from './store/isDisabled'
+import * as playerCards from './store/playerCards'
 
-<div className="grid grid-cols-11 grid-rows-7">
-  <div className="col-span-1 bg-gray-300 p-1">
-    <div className="flex font-card-other">{turn.toUpperCase()} PLAY </div>
-    <button
-      className={`
-      font-card-other
-      font-semibold
-      bg-gradient-to-tr from-teal-900 to-zinc-800
-      border border-zinc-700
-      rounded-sm p-5 text-lg
-      transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
-      onClick={() => handleBuyCard(turn)}
-    >
-      BUY CARD - {deckOfCards.length}
-    </button>
-  </div>
-  {stones.map((stone, i) => (
-    <div class="col-span-1 bg-gray-300 p-1">
-      <Board key={i} data={stone} />
-    </div>
-  ))}
-  <div className="col-span-1 bg-gray-300 p-1">
-    <button
-      className={`
-      font-card-other
-      bg-gradient-to-tr from-red-900 to-zinc-800
-      border border-zinc-700
-      rounded-sm p-5 text-lg
-      transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
-      onClick={() => clearStorage()}
-    >
-      RESTART
-    </button>
-  </div>
-</div>
-<div className="grid grid-cols-6 grid-rows-1 gap-1">
-  <RightHandPlayer data={cardsRightPlayer} addCardToStone={addCardToStone} />
-</div>
-</div> */
+import { removeCardsById } from './store/deck'
+import { nextTurn } from './store/turn'
+
+import cardsOnStones from './utils/checkStones'
+
+import Board from './components/Board'
+import LeftHandPlayer from './components/LeftHandPlayer'
+import RightHandPlayer from './components/RightHandPlayer'
+import Button from './components/Button'
+
+import './styles/global.css'
+
+function App() {
+  const dispatch = useDispatch()
+  const { turn } = useSelector((state) => state.turn)
+  const { leftPlayer, rightPlayer } = useSelector((state) => state.playerCards)
+  const deck = useSelector((state) => state.deck)
+  const stones = useSelector((state) => state.stones)
+
+  const [winner, setWinner] = useState(null)
+
+  const { results } = cardsOnStones(stones)
+
+  const updateDeck = (deckToUpdate, idsCards) => {
+    return deckToUpdate.filter((value) => !idsCards.includes(value.id))
+  }
+
+  const drawSixInitialCards = () => {
+    let ids = []
+    if (deck.length === 54) {
+      const deckNew = [...deck]
+      const rightHandCards = _.sampleSize(deckNew, 6)
+      const idCardsRightHands = rightHandCards.map((card) => card.id)
+
+      dispatch(playerCards.addCardsToRight(rightHandCards))
+
+      const updatedDeck = updateDeck(deckNew, idCardsRightHands)
+
+      const leftHandCards = _.sampleSize(updatedDeck, 6)
+      const idCardsLeftHands = leftHandCards.map((card) => card.id)
+
+      dispatch(playerCards.addCardsToLeft(leftHandCards))
+
+      ids.push(...idCardsRightHands, ...idCardsLeftHands)
+      dispatch(removeCardsById(ids))
+    }
+  }
+
+  const handleBuyCard = (turnPlayer) => {
+    const deckNew = [...deck]
+    if (deckNew.length >= 1) {
+      if (turnPlayer === 'right') {
+        if (rightPlayer.length < 6) {
+          const rightPlayerNewCard = _.sampleSize(deckNew, 1)
+          const idCardsRightHands = rightPlayerNewCard.map((card) => card.id)
+
+          dispatch(playerCards.addCardsToRight(rightPlayerNewCard))
+          dispatch(removeCardsById(idCardsRightHands))
+
+          dispatch(nextTurn('left'))
+          dispatch(enableLeft())
+        } else {
+          return
+        }
+      }
+
+      if (turnPlayer === 'left') {
+        if (leftPlayer.length < 6) {
+          const leftPlayerNewCard = _.sampleSize(deckNew, 1)
+          const idCardsLeftHands = leftPlayerNewCard.map((card) => card.id)
+
+          dispatch(playerCards.addOneCardToLeft(leftPlayerNewCard))
+          dispatch(removeCardsById(idCardsLeftHands))
+
+          dispatch(nextTurn('right'))
+          dispatch(enableRight())
+        } else {
+          return
+        }
+      }
+    } else {
+      turnPlayer === 'left' && dispatch(enableRight())
+      turnPlayer === 'right' && dispatch(enableLeft())
+      dispatch(nextTurn(turnPlayer === 'left' ? 'right' : 'left'))
+    }
+  }
+
+  useEffect(() => {
+    drawSixInitialCards()
+  }, [])
+
+  useEffect(() => {}, [])
+
+  function clearStorage() {
+    localStorage.clear()
+
+    window.location.reload(true)
+  }
+
+  function checkTheWinner() {
+    const leftPoints = results.stonesFinalScore.final.filter((x) => x === 'left').length
+    const rightPoints = results.stonesFinalScore.final.filter((x) => x === 'right').length
+    if (leftPoints > 4) {
+      setWinner('left')
+      dispatch(disableLeft())
+      dispatch(disableRight())
+    }
+    if (rightPoints > 4) {
+      setWinner('right')
+      dispatch(disableLeft())
+      dispatch(disableRight())
+    }
+    console.log(rightPoints)
+  }
+
+  useEffect(() => {
+    checkTheWinner()
+  }, [turn])
+
+  console.log(winner)
+  return (
+    <>
+      <div className="h-screen text-white md:flex flex-col justify-between">
+        <div className="flex flex-wrap gap-2 justify-center">
+          <LeftHandPlayer data={leftPlayer} />
+        </div>
+        <div className="md:flex sm:block justify-center">
+          <div className="flex flex-col justify-center items-center">
+            <div className="flex font-card-other -mt-6">
+              <p className="tracking-widest">{turn.toUpperCase()} PLAY</p>
+            </div>
+            <button className="btn-buy" onClick={() => handleBuyCard(turn)}>
+              BUY CARD - {deck.length}
+            </button>
+          </div>
+          {/* <div className="md:flex sm:block md:gap-2 sm:gap-1 justify-center items-center grow"> */}
+          {stones.map((stone, i) => (
+            <Board key={i} data={stone} results={results} />
+          ))}
+          {/* </div> */}
+          <div className="flex flex-wrap justify-center items-center gap-2">
+            <button className="btn-restart" onClick={() => clearStorage()}>
+              RESTART
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2 justify-center">
+          <RightHandPlayer data={rightPlayer} />
+        </div>
+      </div>
+    </>
+  )
 }
 
-;<div className="flex flex-wrap justify-center h-full">
-  <div className="flex flex-col justify-center items-center">
-    <div className="flex font-card-other -mt-6">{turn.toUpperCase()} PLAY </div>
-    <button
-      className={`
-    font-card-other
-    font-semibold
-    bg-gradient-to-tr from-teal-900 to-zinc-800
-    border border-zinc-700
-    rounded-sm p-5 text-lg
-    transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
-      onClick={() => handleBuyCard(turn)}
-    >
-      BUY CARD - {deckOfCards.length}
-    </button>
-  </div>
-  <div className="h-auto flex gap-2 items-center justify-center grow">
-    {stones.map((stone, i) => (
-      <Board key={i} data={stone} />
-    ))}
-  </div>
-  <div className="flex flex-wrap justify-center items-center gap-2">
-    <button
-      className={`
-    font-card-other
-    bg-gradient-to-tr from-red-900 to-zinc-800
-    border border-zinc-700
-    rounded-sm p-5 text-lg
-    transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300`}
-      onClick={() => clearStorage()}
-    >
-      RESTART
-    </button>
-  </div>
-</div>
+export default App

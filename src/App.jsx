@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { enableLeft, enableRight } from './store/isDisabled'
+import { disableLeft, disableRight, enableLeft, enableRight } from './store/isDisabled'
 import * as playerCards from './store/playerCards'
 
 import { removeCardsById } from './store/deck'
@@ -23,6 +23,8 @@ function App() {
   const deck = useSelector((state) => state.deck)
   const stones = useSelector((state) => state.stones)
 
+  const [winner, setWinner] = useState(null)
+
   const { results } = cardsOnStones(stones)
 
   const updateDeck = (deckToUpdate, idsCards) => {
@@ -31,21 +33,23 @@ function App() {
 
   const drawSixInitialCards = () => {
     let ids = []
-    const deckNew = [...deck]
-    const rightHandCards = _.sampleSize(deckNew, 6)
-    const idCardsRightHands = rightHandCards.map((card) => card.id)
+    if (deck.length === 54) {
+      const deckNew = [...deck]
+      const rightHandCards = _.sampleSize(deckNew, 6)
+      const idCardsRightHands = rightHandCards.map((card) => card.id)
 
-    dispatch(playerCards.addCardsToRight(rightHandCards))
+      dispatch(playerCards.addCardsToRight(rightHandCards))
 
-    const updatedDeck = updateDeck(deckNew, idCardsRightHands)
+      const updatedDeck = updateDeck(deckNew, idCardsRightHands)
 
-    const leftHandCards = _.sampleSize(updatedDeck, 6)
-    const idCardsLeftHands = leftHandCards.map((card) => card.id)
+      const leftHandCards = _.sampleSize(updatedDeck, 6)
+      const idCardsLeftHands = leftHandCards.map((card) => card.id)
 
-    dispatch(playerCards.addCardsToLeft(leftHandCards))
+      dispatch(playerCards.addCardsToLeft(leftHandCards))
 
-    ids.push(...idCardsRightHands, ...idCardsLeftHands)
-    dispatch(removeCardsById(ids))
+      ids.push(...idCardsRightHands, ...idCardsLeftHands)
+      dispatch(removeCardsById(ids))
+    }
   }
 
   const handleBuyCard = (turnPlayer) => {
@@ -88,49 +92,66 @@ function App() {
   }
 
   useEffect(() => {
-    if (deck.length === 54) {
-      drawSixInitialCards()
-    }
+    drawSixInitialCards()
   }, [])
+
+  useEffect(() => {}, [])
 
   function clearStorage() {
     localStorage.clear()
 
     window.location.reload(true)
   }
-  console.log(results)
 
+  function checkTheWinner() {
+    const leftPoints = results.stonesFinalScore.final.filter((x) => x === 'left').length
+    const rightPoints = results.stonesFinalScore.final.filter((x) => x === 'right').length
+    if (leftPoints > 4) {
+      setWinner('left')
+      dispatch(disableLeft())
+      dispatch(disableRight())
+    }
+    if (rightPoints > 4) {
+      setWinner('right')
+      dispatch(disableLeft())
+      dispatch(disableRight())
+    }
+    console.log(rightPoints)
+  }
+
+  useEffect(() => {
+    checkTheWinner()
+  }, [turn])
+
+  console.log(winner)
   return (
-    <>
-      <div className="h-screen text-white flex flex-col justify-between">
-        <div className="flex flex-wrap gap-2 justify-center">
-          <LeftHandPlayer data={leftPlayer} />
+    <div className="h-screen text-white ">
+      <div className="flex gap-1 justify-center">
+        <LeftHandPlayer data={leftPlayer} />
+      </div>
+
+      <div className="flex items-center grow justify-between h-[72%]">
+        <div className="flex flex-col justify-center items-center">
+          <div className="flex font-card-other -mt-6">
+            <p className="tracking-widest">{turn.toUpperCase()} PLAY</p>
+          </div>
+          <button className="btn-buy" onClick={() => handleBuyCard(turn)}>
+            BUY CARD - {deck.length}
+          </button>
         </div>
-        <div className="flex flex-wrap justify-center h-full">
-          <div className="flex flex-col justify-center items-center">
-            <div className="flex font-card-other -mt-6">
-              <p className="tracking-widest">{turn.toUpperCase()} PLAY</p>
-            </div>
-            <button className="btn-buy" onClick={() => handleBuyCard(turn)}>
-              BUY CARD - {deck.length}
-            </button>
-          </div>
-          <div className="h-auto flex flex-wrap gap-2 justify-center items-center grow">
-            {stones.map((stone, i) => (
-              <Board key={i} data={stone} />
-            ))}
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-2">
-            <button className="btn-restart" onClick={() => clearStorage()}>
-              RESTART
-            </button>
-          </div>
+        <div>
+          <Board data={stones} results={results} />
         </div>
-        <div className="flex flex-wrap gap-2 justify-center">
-          <RightHandPlayer data={rightPlayer} />
+        <div className="flex flex-wrap justify-center items-center gap-2">
+          <button className="btn-restart" onClick={() => clearStorage()}>
+            RESTART
+          </button>
         </div>
       </div>
-    </>
+      <div className="flex flex-wrap gap-1 justify-center">
+        <RightHandPlayer data={rightPlayer} />
+      </div>
+    </div>
   )
 }
 

@@ -1,25 +1,11 @@
 const colors = ['red', 'blue', 'zinc', 'yellow', 'green', 'orange']
 
-function createCards(color) {
-  let array = []
-  for (var i = 1; i <= 9; i++) {
-    array.push({
-      id: i + color,
-      cardValue: i,
-      color: color,
+function freshDeck() {
+  return colors.flatMap((color) => {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9].map((value) => {
+      return { id: value + color, cardValue: value, color }
     })
-  }
-  return array
+  })
 }
 
-function createDeckOfCards(colors) {
-  let arrayDeck = []
-  for (var i = 0; i <= colors.length - 1; i++) {
-    arrayDeck.push(...createCards(colors[i]))
-  }
-  return arrayDeck
-}
-
-export const deck = createDeckOfCards(colors)
-
-//console.log(deck)
+export const deck = freshDeck()

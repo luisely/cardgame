@@ -1,8 +1,10 @@
 import { useDispatch } from 'react-redux'
 import { setStoneSelected } from '../store/place'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
-export default function Board({ data }) {
+const botoes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+export default function Board({ data, results }) {
   const dispatch = useDispatch()
 
   const colorVariants = {
@@ -15,58 +17,96 @@ export default function Board({ data }) {
   }
 
   return (
-    <>
-      <div className=" ">
-        {data.left.map((card) => (
-          <div
-            key={card.id}
-            className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
-              colorVariants[card.color]
-            } to-zinc-800`}
-          >
-            <div className="text-4xl text-center ">{card.cardValue}</div>
-          </div>
-        ))}
-        <div className="">
-          <button className="stones" onClick={() => dispatch(setStoneSelected(data.id))}>
-            STONE <span>{data.id}</span>
-          </button>
-        </div>
-
-        {data.right.map((card) => (
-          <div
-            key={card.id}
-            className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
-              colorVariants[card.color]
-            } to-zinc-800`}
-          >
-            <div className="text-4xl text-center ">{card.cardValue}</div>
+    <div className="">
+      <div className="grid grid-cols-9 gap-1 items-end">
+        {data.map((stone) => (
+          <div key={stone.id} id={stone.id}>
+            <div className="">
+              {results.stonesFinalScore.final[stone.id - 1] === 'left' ? (
+                <button className="winner">WINNER</button>
+              ) : null}
+            </div>
+            {stone.left.map((card) => (
+              <div
+                key={card.id}
+                className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
+                  colorVariants[card.color]
+                } to-zinc-800`}
+              >
+                <div className="text-4xl text-center ">{card.cardValue}</div>
+              </div>
+            ))}
           </div>
         ))}
       </div>
-    </>
+
+      <div className="grid grid-cols-9 gap-1">
+        {botoes.map((value) => (
+          <div key={value}>
+            <button className="stones" onClick={() => dispatch(setStoneSelected(value))}>
+              STONE <span>{value}</span>
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-9 gap-1 items-start">
+        {data.map((stone) => (
+          <div key={stone.id} id={stone.id}>
+            {stone.right.map((card) => (
+              <div
+                key={card.id}
+                className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
+                  colorVariants[card.color]
+                } to-zinc-800`}
+              >
+                <div className="text-4xl text-center ">{card.cardValue}</div>
+              </div>
+            ))}
+            <div className="mb-50">
+              {results.stonesFinalScore.final[stone.id - 1] === 'right' ? (
+                <button className="winner">WINNER</button>
+              ) : null}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* {stone.right.map((card) => (
+        <div
+          key={card.id}
+          className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
+            colorVariants[card.color]
+          } to-zinc-800`}
+        >
+          <div className="text-4xl text-center ">{card.cardValue}</div>
+        </div>
+      ))}
+
+      <div className="mb-50">
+        {results.stonesFinalScore.final[stone.id - 1] === 'right' ? <button className="winner">WINNER</button> : null}
+      </div> */}
+    </div>
   )
 }
 
 // Board.propTypes = {
-//   data: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.number.isRequired,
-//       left: PropTypes.arrayOf(
-//         PropTypes.shape({
-//           id: PropTypes.string.isRequired,
-//           cardValue: PropTypes.number.isRequired,
-//           color: PropTypes.string.isRequired,
-//         }),
-//       ).isRequired,
-//       right: PropTypes.arrayOf(
-//         PropTypes.shape({
-//           id: PropTypes.string.isRequired,
-//           cardValue: PropTypes.number.isRequired,
-//           color: PropTypes.string.isRequired,
-//         }),
-//       ).isRequired,
-//       totalCardsStone: PropTypes.number.isRequired,
-//     }).isRequired,
-//   ).isRequired,
+//   data: PropTypes.shape({
+//     id: PropTypes.number.isRequired,
+//     left: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.string.isRequired,
+//         cardValue: PropTypes.number.isRequired,
+//         color: PropTypes.string.isRequired,
+//       }),
+//     ).isRequired,
+//     right: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.string.isRequired,
+//         cardValue: PropTypes.number.isRequired,
+//         color: PropTypes.string.isRequired,
+//       }),
+//     ).isRequired,
+//     totalCardsStone: PropTypes.number.isRequired,
+//   }).isRequired,
 // }

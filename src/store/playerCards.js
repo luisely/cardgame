@@ -14,7 +14,6 @@ const playerCards = createSlice({
       }
     },
     addCardsToLeft: (state, { payload }) => {
-      console.log(payload)
       state.leftPlayer.push(...payload)
       // for (let i = 0; i < payload.length; i++) {
       // }
@@ -31,7 +30,6 @@ const playerCards = createSlice({
       }
     },
     addCardsToRight: (state, { payload }) => {
-      console.log(payload)
       state.rightPlayer.push(...payload)
       // for (let i = 0; i < payload.length; i++) {
       // }

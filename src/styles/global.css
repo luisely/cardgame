@@ -3,13 +3,16 @@
 @tailwind utilities;
 
 @layer components {
+  * {
+    @apply p-0 m-0 box-border;
+  }
   .btn-restart {
     @apply tracking-widest
     italic
     font-card-other
     bg-gradient-to-tr from-red-900 to-zinc-800
     border border-zinc-700
-    rounded-md p-5 text-lg
+    rounded-md md:p-4 md:text-lg sm:p-2 sm:text-xs
     transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300;
   }
 
@@ -19,14 +22,14 @@
     tracking-widest
     bg-gradient-to-tr from-teal-900 to-zinc-800
     border border-zinc-700
-    rounded-md p-5 text-lg
+    rounded-md md:p-4 md:text-lg sm:p-2 sm:text-xs
     transition-colors ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300;
   }
 
   .cards {
     @apply font-card-sides
     text-center text-4xl
-    h-32 w-28 font-semibold
+    md:h-32 md:w-28 sm:h-20 sm:w-14 font-semibold
     bg-gradient-to-tr to-zinc-800
     rounded-md p-4
     border border-zinc-700
@@ -39,7 +42,17 @@
     font-card-other
     bg-gradient-to-tr from-zinc-900 to-zinc-800
     border border-zinc-700
-    rounded-md p-5 text-lg
+    rounded-md p-4 md:text-lg sm:text-sm
     transition-colors ease-in-out hover:text-emerald-600 hover:border-emerald-700 focus:border-emerald-700 focus:text-emerald-600 duration-300;
+  }
+
+  .winner {
+    @apply tracking-wider
+    mt-1
+    font-card-other cursor-default
+    bg-gradient-to-tr from-blue-700 to-blue-500
+    border border-zinc-700
+    rounded-md p-4 md:text-lg sm:text-sm
+    transition-colors ease-in-out hover:text-zinc-900 hover:border-zinc-900 focus:border-zinc-900 focus:text-zinc-900 duration-300;
   }
 }
