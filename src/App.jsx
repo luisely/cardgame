@@ -95,8 +95,6 @@ function App() {
     drawSixInitialCards()
   }, [])
 
-  useEffect(() => {}, [])
-
   function clearStorage() {
     localStorage.clear()
 
@@ -123,9 +121,9 @@ function App() {
     checkTheWinner()
   }, [turn])
 
-  console.log(winner)
+  console.log(stones)
   return (
-    <div className="h-screen text-white ">
+    <div className="h-screen text-white items-center">
       <div className="flex gap-1 justify-center">
         <LeftHandPlayer data={leftPlayer} />
       </div>
@@ -139,7 +137,7 @@ function App() {
             BUY CARD - {deck.length}
           </button>
         </div>
-        <div>
+        <div className="flex">
           <Board data={stones} results={results} />
         </div>
         <div className="flex flex-wrap justify-center items-center gap-2">
