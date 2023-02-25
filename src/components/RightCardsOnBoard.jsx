@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-
+//
 export default function RightCardsOnBoard({ results }) {
   const stones = useSelector((state) => state.stones)
 

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 
+//
+
 import { setStoneSelected } from '../store/place'
 import { removeLeftCardById } from '../store/playerCards'
 import { addCardLeftPlayer } from '../store/stones'

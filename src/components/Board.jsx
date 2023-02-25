@@ -3,6 +3,7 @@ import { setStoneSelected } from '../store/place'
 import LeftCardsOnBoard from './LeftCardsOnBoard'
 import RightCardsOnBoard from './RightCardsOnBoard'
 import PropTypes from 'prop-types'
+//
 
 const botoes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 

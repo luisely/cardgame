@@ -53,6 +53,6 @@
     bg-gradient-to-tr from-blue-700 to-blue-500
     border border-zinc-700
     rounded-md p-4 md:text-lg sm:text-sm
-    transition-colors ease-in-out hover:text-zinc-900 hover:border-zinc-900 focus:border-zinc-900 focus:text-zinc-900 duration-300;
+    transition-colors ease-in-out hover:text-zinc-900 hover:border-zinc-900 focus:border-zinc-900 focus:text-zinc-900 duration-400;
   }
 }
