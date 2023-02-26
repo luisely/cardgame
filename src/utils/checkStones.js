@@ -48,7 +48,7 @@ export default (stones) => {
       const result2 = checkIsColor(stoneId, player)
       const result1 = checkIsRun(stoneId, player)
 
-      if (result1 === 2 && result2 === 3) {
+      if (result1 === 200 && result2 === 300) {
         return result2 + result1
       } else {
         return 0

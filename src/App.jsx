@@ -114,14 +114,14 @@ function App() {
       dispatch(disableLeft())
       dispatch(disableRight())
     }
-    console.log(rightPoints)
   }
 
   useEffect(() => {
     checkTheWinner()
   }, [turn])
 
-  console.log(stones)
+  console.log(results.stonesFinalScore)
+
   return (
     <div className="h-screen text-white items-center">
       <div className="flex gap-1 justify-center">

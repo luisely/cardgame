@@ -7,8 +7,6 @@ import { addCardRightPlayer } from '../store/stones'
 
 import * as isDisabledHandle from '../store/isDisabled'
 
-//
-
 export default function RightHandPlayer({ data }) {
   const dispatch = useDispatch()
   const { isDisabled } = useSelector((state) => state)
