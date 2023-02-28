@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         'card-sides': ['Julee'],
         'card-other': ['Viga'],
+        number: ['Rampart One'],
       },
     },
   },

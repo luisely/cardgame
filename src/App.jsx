@@ -13,6 +13,11 @@ import cardsOnStones from './utils/checkStones'
 import Board from './components/Board'
 import LeftHandPlayer from './components/LeftHandPlayer'
 import RightHandPlayer from './components/RightHandPlayer'
+import RulesOfGame from './components/RulesOfGame'
+
+import * as Dialog from '@radix-ui/react-dialog'
+
+import { Plus, X } from 'phosphor-react'
 
 import './styles/global.css'
 
@@ -91,10 +96,6 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    drawSixInitialCards()
-  }, [])
-
   function clearStorage() {
     localStorage.clear()
 
@@ -117,25 +118,47 @@ function App() {
   }
 
   useEffect(() => {
+    drawSixInitialCards()
+  }, [])
+
+  useEffect(() => {
     checkTheWinner()
   }, [turn])
 
   console.log(results.stonesFinalScore)
 
   return (
-    <div className="h-screen text-white items-center">
-      <div className="flex gap-1 justify-center">
+    <div className="w-screen h-screen text-white relative">
+      <div className="flex gap-1 justify-center h-32">
         <LeftHandPlayer data={leftPlayer} />
       </div>
 
-      <div className="flex items-center grow justify-between h-[72%]">
-        <div className="flex flex-col justify-center items-center">
-          <div className="flex font-card-other -mt-6">
-            <p className="tracking-widest">{turn.toUpperCase()} PLAY</p>
+      <div className="flex items-center grow justify-between">
+        <div className="flex flex-col justify-center items-center w-22 gap-1">
+          <div className="flex font-card-other text-orange-500 font-thin  gap-1">
+            <p className="tracking-widest text-xs md:text-xl md:w-40 text-center">
+              {winner ? winner.toUpperCase() + ' WIN' : turn.toUpperCase() + ' TURN'}{' '}
+            </p>
           </div>
           <button className="btn-buy" onClick={() => handleBuyCard(turn)}>
-            BUY CARD - {deck.length}
+            <div>BUY CARD</div>
+            <div className="text-xs m-0">({deck.length})</div>
           </button>
+          <Dialog.Root>
+            <Dialog.Trigger className="btn-rules">Rules</Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
+              <Dialog.Content className="text-white absolute p-8 border border-emerald-700 bg-zinc-900 rounded-xl w-full max-w-2xl top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/4 font-card-other text-xl tracking-wide">
+                <Dialog.Close className="absolute right-6 top-6 text-zinc-400 hover:text-zinc-200">
+                  <X size={24} aria-label="Fechar" />
+                </Dialog.Close>
+                <Dialog.Title className="text-4xl leading-tight font-semibold text-orange-500 font-card-sides text-center after:content-[''] after:w-full after:h-1 after:block after:my-2 after:bg-gradient-to-r after:from-zinc-900 after:via-green-500 after:to-zinc-900 after:m-auto">
+                  Rules of Game
+                </Dialog.Title>
+                <RulesOfGame />
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
         </div>
         <div className="flex">
           <Board data={stones} results={results} />
@@ -146,7 +169,7 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap gap-1 justify-center">
+      <div className="flex gap-1 justify-center mt-12 md:mt-7">
         <RightHandPlayer data={rightPlayer} />
       </div>
     </div>

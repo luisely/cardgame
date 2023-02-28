@@ -177,10 +177,4 @@ export default (stones) => {
       stonesFinalScore: result,
     },
   }
-
-  // stone1.left.map((card) => {
-  //   console.log(card.cardValue)
-  // })
 }
-
-//gere um array de objetos com nome de carros, com id, name, e price

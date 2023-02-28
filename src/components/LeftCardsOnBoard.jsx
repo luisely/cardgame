@@ -14,18 +14,16 @@ export default function LeftCardsOnBoard({ results }) {
   }
 
   return (
-    <div className="grid grid-cols-9 gap-1 items-end h-80">
+    <div className="grid grid-cols-9 gap-1 items-end h-72">
       {stones.map((stone) => (
         <div key={stone.id} id={stone.id}>
           <div className="">
-            {results.stonesFinalScore.final[stone.id - 1] === 'left' ? (
-              <button className="winner">WINNER</button>
-            ) : null}
+            {results.stonesFinalScore.final[stone.id - 1] === 'left' ? <button className="winner">WIN !</button> : null}
           </div>
           {stone.left.map((card) => (
             <div
               key={card.id}
-              className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
+              className={`mt-1 font-card-other border border-slate-600 py-2 rounded-md bg-gradient-to-tr ${
                 colorVariants[card.color]
               } to-zinc-800`}
             >

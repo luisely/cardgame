@@ -14,13 +14,13 @@ export default function RightCardsOnBoard({ results }) {
   }
 
   return (
-    <div className="grid grid-cols-9 gap-1 items-start h-80">
+    <div className="grid grid-cols-9 gap-1 items-start h-72">
       {stones.map((stone) => (
         <div key={stone.id} id={stone.id}>
           {stone.right.map((card) => (
             <div
               key={card.id}
-              className={`mt-1 font-card-sides font-semibold border border-slate-600 p-4 rounded-md bg-gradient-to-tr ${
+              className={`mt-1 font-card-other border border-slate-600 py-2 rounded-md bg-gradient-to-tr ${
                 colorVariants[card.color]
               } to-zinc-800`}
             >
@@ -29,7 +29,7 @@ export default function RightCardsOnBoard({ results }) {
           ))}
           <div className="mb-50">
             {results.stonesFinalScore.final[stone.id - 1] === 'right' ? (
-              <button className="winner">WINNER</button>
+              <button className="winner">WIN !</button>
             ) : null}
           </div>
         </div>
