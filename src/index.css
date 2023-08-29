@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+.stones {
+  @apply tracking-wider
+  mt-1 w-full
+  bg-gradient-to-tr from-zinc-900 to-zinc-800
+  border-b border-b-gray-600
+  rounded
+  p-1 text-sm
+  transition-all ease-in-out hover:text-emerald-600 hover:border-emerald-700 focus:border-emerald-700 focus:text-emerald-600 duration-300;
+}
+
+.btn-buy {
+  @apply
+  italic flex items-center gap-2
+  tracking-widest
+  bg-gradient-to-tr from-teal-900 to-zinc-800
+  border border-zinc-700
+  rounded-md text-sm md:py-2 md:text-xl md:w-full
+  transition-all ease-in-out hover:border-emerald-700 focus:border-emerald-700 duration-300 hover:text-orange-500;
+}
+
+.btn-rules {
+  @apply tracking-wide
+  h-10 w-10 md:w-full
+  bg-green-600
+  rounded-md md:text-xl text-xs
+  transition-all ease-in-out hover:bg-green-700 focus:border-emerald-700 duration-300 hover:tracking-widest;
+}
+
+.fixed-center{
+  @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+}
