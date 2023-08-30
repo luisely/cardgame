@@ -6,7 +6,7 @@ import { Stones } from '../../../../../app/entities/Stones'
 import { deck } from '../../../../../utils/deck'
 import { useStone } from './useStone'
 
-export interface PlayerCards {
+export type PlayerCards = {
   top: Card[]
   bottom: Card[]
 }
@@ -85,7 +85,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
   )
 
   const handleWinner = useCallback(() => {
-    const winnerCount = stones.reduce(
+    const { bottom, top } = stones.reduce(
       (count, stone) => {
         if (stone.winner === 'top') {
           count.top += 1
@@ -97,12 +97,8 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
       { top: 0, bottom: 0 },
     )
 
-    if (winnerCount.top === 3) {
-      setWinner('top')
-    }
-
-    if (winnerCount.bottom === 3) {
-      setWinner('bottom')
+    if (bottom === 3 || top === 3) {
+      setWinner(top > bottom ? 'top' : 'bottom')
     }
   }, [stones])
 

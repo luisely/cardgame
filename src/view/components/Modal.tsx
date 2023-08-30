@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
 
-interface ModalProps {
+type ModalProps = {
   open: boolean
   children: React.ReactNode
   title: string

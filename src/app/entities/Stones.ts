@@ -1,6 +1,6 @@
 import { Card } from './Card'
 
-export interface Stones {
+export type Stones = {
   id: string
   totalCardsStone: number
   winner: string | null

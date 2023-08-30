@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { Card } from '../../../../../app/entities/Card'
 import { CardButton } from '../../../../components/CardButton'
 
-interface CardsPlayerProps {
+type CardsPlayerProps = {
   data: Card[]
   isDisabled: boolean
   player: 'top' | 'bottom'

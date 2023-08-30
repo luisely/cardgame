@@ -25,7 +25,7 @@
 
 
 .stones {
-  @apply tracking-wider
+  @apply
   mt-1 w-full
   bg-gradient-to-tr from-zinc-900 to-zinc-800
   border-b border-b-gray-600

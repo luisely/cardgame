@@ -12,7 +12,7 @@ export const colorVariants = {
   zinc: 'from-zinc-700',
 }
 
-interface DropCardsProps {
+type DropCardsProps = {
   player: 'top' | 'bottom'
   onDrop: (item: { card: Card; player: 'top' | 'bottom' }) => void
   isAllowDrop(item: { player: 'top' | 'bottom' }): boolean
@@ -40,7 +40,7 @@ export const DropCards = memo(function DropCards({ cards, player, onDrop, isAllo
       data-active={isActive}
       data-candrop={canDrop}
       data-player={player}
-      className="flex data-[candrop=true]:bg-zinc-900/30 items-end justify-center data-[player=bottom]:items-start h-[72px]"
+      className="flex data-[candrop=true]:bg-zinc-900/30 items-end justify-center data-[player=bottom]:items-start data-[player=bottom]:pt-1 h-full"
     >
       {cards.map((card) => (
         <CardButton
@@ -49,7 +49,7 @@ export const DropCards = memo(function DropCards({ cards, player, onDrop, isAllo
           isDisabled={true}
           player={player}
           canDrag={false}
-          className="mt-1 w-10 h-12 md:w-12 md:h-16 border-r-0 border-b text-4xl"
+          className="w-10 h-12 md:w-12 md:h-16 border-r-0 border-b text-4xl"
         />
       ))}
     </div>

@@ -12,7 +12,7 @@ const colorVariants = {
   zinc: 'from-zinc-700',
 }
 
-interface CardButtonProps extends ComponentProps<'button'> {
+type CardButtonProps = ComponentProps<'button'> & {
   card: Card
   isDisabled: boolean
   player: 'top' | 'bottom'

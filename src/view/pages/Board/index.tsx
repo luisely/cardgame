@@ -1,3 +1,4 @@
+import { ConfettiComp } from '../../components/ConfettiComp'
 import { BoardProvider } from './components/BoardContext'
 import { RulesModal } from './components/CenterBoard/Modals/RulesModal'
 import { Layout } from './layout'
@@ -10,6 +11,7 @@ export function Board() {
       <BoardProvider>
         <Layout />
         <RulesModal />
+        <ConfettiComp />
       </BoardProvider>
     </DndProvider>
   )
