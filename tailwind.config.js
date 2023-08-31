@@ -2,7 +2,11 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        jetBrains: ['JetBrains Mono'],
+      },
+    },
     keyframes: {
       slideDownAndFade: {
         from: { opacity: 0, transform: 'translateY(-2px)' },

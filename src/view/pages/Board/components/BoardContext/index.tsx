@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import _ from 'lodash'
+import _, { result } from 'lodash'
 import React, { createContext, useCallback, useState } from 'react'
 import { Card } from '../../../../../app/entities/Card'
 import { Stones } from '../../../../../app/entities/Stones'

@@ -11,7 +11,7 @@ export function Layout() {
       <div className="flex flex-col text-white w-full h-full max-w-xl md:max-w-3xl">
         <Header />
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center gap-1 h-24 md:h-32 w-full p-2">
+          <div className="flex items-center justify-center gap-1 h-24 md:h-32 w-full">
             <CardsPlayer data={playersCards.top} isDisabled={turnPlayer !== 'top'} player="top" />
           </div>
 
@@ -19,7 +19,7 @@ export function Layout() {
             <CenterBoard />
           </div>
 
-          <div className="flex items-center justify-center gap-1 h-24 md:h-32 w-full p-2">
+          <div className="flex items-center justify-center gap-1 h-24 md:h-32 w-full">
             <CardsPlayer data={playersCards.bottom} isDisabled={turnPlayer !== 'bottom'} player="bottom" />
           </div>
         </div>

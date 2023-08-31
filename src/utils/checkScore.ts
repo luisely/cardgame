@@ -1,10 +1,16 @@
 import { Card } from '../app/entities/Card'
 
 const pointsToAdd = {
-  run: 400,
-  three: 300,
-  colors: 100,
+  run: 300,
+  three: 400,
+  colors: 200,
 }
+
+// 1. Run + Colors: 500P
+// 2. Three:        400P
+// 3. Run:          300P
+// 4. Colors:       200P
+// 5. Sum:          Sum of Points
 
 function isSequence(array: Card[]) {
   for (let i = 1; i < array.length; i++) {

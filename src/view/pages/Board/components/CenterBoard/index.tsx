@@ -24,7 +24,7 @@ export function CenterBoard() {
                 className="stones data-[winner=true]:opacity-50"
                 onClick={() => handleChangeStone(index)}
               >
-                <span className="tracking-tight md:tracking-normal">
+                <span className="tracking-tight md:tracking-normal font-jetBrains italic">
                   {stone.winner ? stone.winner.toUpperCase() + ' WIN' : 'STONE ' + stone.id}
                 </span>
               </button>

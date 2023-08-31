@@ -49,7 +49,8 @@ export const DropCards = memo(function DropCards({ cards, player, onDrop, isAllo
           isDisabled={true}
           player={player}
           canDrag={false}
-          className="w-10 h-12 md:w-12 md:h-16 border-r-0 border-b text-4xl"
+          className="w-10 h-12 md:w-12 md:h-16"
+          dropClassName="text-lg md:text-xl"
         />
       ))}
     </div>

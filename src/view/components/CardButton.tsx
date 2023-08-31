@@ -3,13 +3,15 @@ import { Card } from '../../app/entities/Card'
 import { useDrag } from 'react-dnd'
 import { twMerge } from 'tailwind-merge'
 
+import diamond from '../assets/diamond.svg'
+
 const colorVariants = {
-  blue: 'from-blue-700',
-  yellow: 'from-violet-700',
-  green: 'from-green-700',
-  orange: 'from-amber-700',
-  red: 'from-red-700',
-  zinc: 'from-zinc-700',
+  blue: 'bg-blue-700',
+  yellow: 'bg-violet-700',
+  green: 'bg-green-700',
+  orange: 'bg-amber-700',
+  red: 'bg-red-700',
+  zinc: 'bg-zinc-700',
 }
 
 type CardButtonProps = ComponentProps<'button'> & {
@@ -18,6 +20,7 @@ type CardButtonProps = ComponentProps<'button'> & {
   player: 'top' | 'bottom'
   canDrag?: boolean
   className?: string
+  dropClassName?: string
 }
 
 export const CardButton = memo(function CardButton({
@@ -26,6 +29,7 @@ export const CardButton = memo(function CardButton({
   player,
   canDrag,
   className,
+  dropClassName,
   ...props
 }: CardButtonProps) {
   const [{ isDragging }, drag] = useDrag(
@@ -50,17 +54,20 @@ export const CardButton = memo(function CardButton({
       type="button"
       disabled={isDisabled}
       className={twMerge(
-        'text-center text-5xl w-14 h-20 md:w-20 md:h-28 font-medium',
-        'bg-gradient-to-tr to-zinc-800',
-        'rounded-md border-r-2 border-b-2 border-slate-500',
-        'transition-all hover:border-emerald-700 focus:border-emerald-700',
+        'text-center w-14 h-20 md:w-20 md:h-28 text-3xl md:text-4xl',
+        'rounded-md ',
+        'transition-all hover:bg-slate-100',
         'data-[d=true]:opacity-20 disabled:cursor-not-allowed cursor-grab',
         'animate-slideDownAndFade',
-        colorVariants[card.color],
         className,
       )}
     >
-      {card.cardValue}
+      <div className={twMerge(' h-[96%] m-[2px] rounded flex items-center justify-center', colorVariants[card.color])}>
+        <div className=" flex bg-no-repeat items-center justify-center bg-center relative">
+          <img src={diamond} alt="" className="h-20" />
+          <p className={twMerge('drop-shadow-2xl absolute font-jetBrains italic', dropClassName)}>{card.cardValue}</p>
+        </div>
+      </div>
     </button>
   )
 })
